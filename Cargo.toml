@@ -1,0 +1,10 @@
+[package]
+name = "project-apple"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+config = "0.15.11"
+serde = { version = "1.0.219", features = ["derive"] }
+serenity = "0.12.4"
+tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }

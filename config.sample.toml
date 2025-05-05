@@ -1,2 +1,3 @@
 [discord]
 token = "YOUR_OWN_DISCORD_BOT_TOKEN"
+prefix = "pa!" # change it if you don't like it

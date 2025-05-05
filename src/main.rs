@@ -9,6 +9,7 @@ use serenity::{
 };
 
 mod information;
+mod server;
 
 struct Handler;
 
@@ -16,6 +17,7 @@ struct Handler;
 #[derive(Debug, Deserialize)]
 struct DiscordConfig {
     token: String,
+    prefix: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -28,12 +30,19 @@ struct Settings {
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
+        let settings: Settings = Config::builder()
+            .add_source(config::File::with_name("config"))
+            .build()
+            .unwrap()
+            .try_deserialize()
+            .unwrap();
+
         if msg.author.bot { return; }
 
         // simple split: "!cmd arg1 arg2"
         let content = msg.content.trim();
-        let prefix = "pa!";
-        let (cmd, args) = if let Some(rest) = content.strip_prefix(prefix) {
+        let prefix = settings.discord.prefix;
+        let (cmd, args) = if let Some(rest) = content.strip_prefix(&prefix) {
             let mut parts = rest.split_whitespace();
             let c = parts.next().unwrap_or("");
             (c, parts.collect::<Vec<_>>())
@@ -44,6 +53,8 @@ impl EventHandler for Handler {
         // route to the right category
         if information::owns(cmd) {
             information::dispatch(&ctx, &msg, cmd, &args).await;
+        } else if server::owns(cmd) {
+            server::dispatch(&ctx, &msg, cmd, &args).await;
         }
     }
 }

@@ -1,9 +1,14 @@
 use config::Config;
 use serde::Deserialize;
 
-use serenity::async_trait;
-use serenity::model::channel::Message;
-use serenity::prelude::*;
+use serenity::{
+    async_trait,
+    model::channel::Message,
+    prelude::*,
+    all::GatewayIntents,
+};
+
+mod information;
 
 struct Handler;
 
@@ -23,10 +28,22 @@ struct Settings {
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
-        if msg.content == "!ping" {
-            if let Err(why) = msg.channel_id.say(&ctx.http, "Pong!").await {
-                println!("Error sending message: {why:?}");
-            }
+        if msg.author.bot { return; }
+
+        // simple split: "!cmd arg1 arg2"
+        let content = msg.content.trim();
+        let prefix = "pa!";
+        let (cmd, args) = if let Some(rest) = content.strip_prefix(prefix) {
+            let mut parts = rest.split_whitespace();
+            let c = parts.next().unwrap_or("");
+            (c, parts.collect::<Vec<_>>())
+        } else {
+            return;
+        };
+
+        // route to the right category
+        if information::owns(cmd) {
+            information::dispatch(&ctx, &msg, cmd, &args).await;
         }
     }
 }

@@ -10,7 +10,7 @@ use serenity::{
 
 mod information;
 mod server;
-
+mod functions;
 struct Handler;
 
 // For 'Config.toml' file, gotta put it

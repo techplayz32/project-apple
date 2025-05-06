@@ -15,7 +15,7 @@ I strongly dislike this practice, which is why I’m creating an open-source alt
 - [ ] Implement core bot functionality (help, info and etc).
 - [ ] Implement integration with Last.fm
 - [ ] Implement the most easiest stuff (information, server, giveaways)
-- [ ] Implement the "embed" function to make my life easier..
+- [X] Implement the "embed" function to make my life easier..
 
 ## Contributing
 

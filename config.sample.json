@@ -1,0 +1,5 @@
+{
+	"token": "your-token-goes-here",
+    "clientId": "your-application-id-goes-here",
+    "sumthing-removeifyouwant": "REMOVE THE '.sample' THING IN THE NAME OF FILE, SO IT WILL WORK"
+}

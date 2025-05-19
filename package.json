@@ -1,6 +1,6 @@
 {
   "name": "project-apple",
-  "module": "./src/index.ts",
+  "module": "src/index.ts",
   "type": "module",
   "devDependencies": {
     "@types/bun": "^1.2.13"
